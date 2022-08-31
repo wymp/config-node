@@ -13,7 +13,7 @@
   },
   "author": "Kael Shipman<kael.shipman@gmail.com>",
   "license": "ISC",
-  "repository": "https://github.com/wymp/weenie-config-node.git",
+  "repository": "https://github.com/wymp/config-node.git",
   "dependencies": {
     "@types/node": "*",
     "@wymp/weenie-base": "^1.0.0"
