@@ -1,0 +1,7 @@
+*.sw[op]
+build/*
+node_modules
+logs/*
+dist
+*.local
+*.local.*

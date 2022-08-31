@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+set -e
+
+if [ -z "$SKIP_TESTS" ]; then
+    npm test
+fi
+
+if [ -z "$SKIP_LINTING" ]; then
+    npx pretty-quick --staged
+fi
