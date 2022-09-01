@@ -91,22 +91,48 @@ export const config = <Config>(
   validator: { check: (config: any) => Config },
   delimiter: string = "_"
 ): { config: Config } => {
-  // Get values from environment and both files, if applicable
-  const vals = [
-    src.defaultsFile && fs.existsSync(src.defaultsFile)
-      ? JSON.parse(fs.readFileSync(src.defaultsFile, "utf8"))
-      : {},
-    src.localsFile && fs.existsSync(src.localsFile)
-      ? JSON.parse(fs.readFileSync(src.localsFile, "utf8"))
-      : {},
-    src.secretsDir && fs.existsSync(src.secretsDir)
-      ? _configFromEnv(inflateSecretsDir(src.secretsDir), ns, delimiter)
-      : {},
-    src.env ? _configFromEnv(src.env, ns, delimiter) : {},
-  ];
+  // Get values from all applicable sources
+  let defaults: unknown, locals: unknown, secrets: unknown, env: unknown;
+
+  // Get values from defaults file
+  try {
+    defaults =
+      src.defaultsFile && fs.existsSync(src.defaultsFile)
+        ? JSON.parse(fs.readFileSync(src.defaultsFile, "utf8"))
+        : {};
+  } catch (e) {
+    throw new Error(`Config: Error parsing ${src.defaultsFile}: ${e.message}`);
+  }
+
+  // Get values from locals file
+  try {
+    locals =
+      src.localsFile && fs.existsSync(src.localsFile)
+        ? JSON.parse(fs.readFileSync(src.localsFile, "utf8"))
+        : {};
+  } catch (e) {
+    throw new Error(`Config: Error parsing ${src.localsFile}: ${e.message}`);
+  }
+
+  // Get values from secrets dir
+  try {
+    secrets =
+      src.secretsDir && fs.existsSync(src.secretsDir)
+        ? _configFromEnv(inflateSecretsDir(src.secretsDir), ns, delimiter)
+        : {};
+  } catch (e) {
+    throw new Error(`Config: Error inflating secrets dir ${src.secretsDir}: ${e.message}`);
+  }
+
+  // Get values from environment
+  try {
+    env = src.env ? _configFromEnv(src.env, ns, delimiter) : {};
+  } catch (e) {
+    throw new Error(`Config: Error inflating config-related environment variables: ${e.message}`);
+  }
 
   // Now combine them all together
-  const config = deepmerge(vals[0], vals[1], vals[2], vals[3]);
+  const config = deepmerge(defaults, locals, secrets, env);
 
   // Finally, check and set
   try {

@@ -1,6 +1,6 @@
 {
   "name": "@wymp/config-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A small, minimal-dependency library for elegantly handling config in nodejs environments",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
