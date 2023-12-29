@@ -3,10 +3,12 @@
 
 set -e
 
-if [ -z "$SKIP_TESTS" ]; then
-    npm test
+if [ -z "$SKIP_LINTING" ]; then
+    pnpm typecheck
+    pnpm prettier
+    pnpm lint
 fi
 
-if [ -z "$SKIP_LINTING" ]; then
-    npx pretty-quick --staged
+if [ -z "$SKIP_TESTS" ]; then
+    pnpm test:jest
 fi

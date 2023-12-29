@@ -88,6 +88,7 @@ export const config = <Config>(
      */
     secretsDir?: string;
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   validator: { check: (config: any) => Config },
   delimiter: string = "_"
 ): { config: Config } => {
@@ -179,7 +180,7 @@ const _configFromEnv = (
     .sort()
     .reduce<{ [k: string]: string }>((agg, cur) => {
       if (regexp.test(cur)) {
-        let nm = cur.replace(regexp, "$1");
+        const nm = cur.replace(regexp, "$1");
         agg[nm] = env[cur]!;
       }
       return agg;
@@ -212,13 +213,14 @@ const interpret = (
         ? cast[1] === "number"
           ? Number(cast[2])
           : cast[1] === "boolean"
-          ? Boolean(nativize(cast[2]))
-          : cast[2]
+            ? Boolean(nativize(cast[2]))
+            : cast[2]
         : // Otherwise, try to infer what it might be and cast accordingly
           nativize(flat[k]);
 
     // Finally, place the value in the correct location in the tree
     // `current` will point to the current parent node being operated on as we move down the tree
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let current: any = obj;
     //let current: { [k: string]: unknown } | Array<unknown> = obj;
 
@@ -231,7 +233,7 @@ const interpret = (
       // If this is the last part, then set the value
       if (i === path.length - 1) {
         current[part] = value;
-      } else if (!current.hasOwnProperty(part)) {
+      } else if (!Object.prototype.hasOwnProperty.call(current, part)) {
         // Otherwise, if we don't already have an object at this path, create one and keep going.
         // If the next part looks like an array index, then make the child an array
         if (typeof path[i + 1] === "number") {
@@ -258,13 +260,13 @@ const nativize = (v: string): string | boolean | number | null => {
   return `${parseInt(v)}` === v
     ? Number(v)
     : // Does it look like a boolean?
-    v === "true"
-    ? true
-    : v === "false"
-    ? false
-    : // Does it look null?
-    v === "null"
-    ? null
-    : // Must be a string
-      v;
+      v === "true"
+      ? true
+      : v === "false"
+        ? false
+        : // Does it look null?
+          v === "null"
+          ? null
+          : // Must be a string
+            v;
 };

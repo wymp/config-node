@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { config as configFunc } from "../src";
 import * as rt from "runtypes";
 
@@ -52,7 +53,8 @@ const testConfigValidator = rt.Record({
   b: rt.Optional(rt.Union(rt.Boolean, rt.Null)),
   c: rt.Literal("Exactly C"),
 });
-declare type TestConfig = rt.Static<typeof testConfigValidator>;
+// Example of config type derivation:
+// declare type TestConfig = rt.Static<typeof testConfigValidator>;
 
 describe("Config function", () => {
   beforeEach(() => {
@@ -88,11 +90,11 @@ describe("Config function", () => {
   const par = "NOTE: YOU MUST USE THE -i FLAG TO TELL JEST NOT TO RUN IN PARALLEL FOR THESE TESTS";
 
   [
-    ["APP_a_one", "3", `Details: \{[\\n\\r][ \\t]*"a": \{[\\r\\n][ \\t]*"one"`],
-    ["APP_a_two", "12345", `Details: \{[\\n\\r][ \\t]*"a": \{[\\r\\n][ \\t]*"two"`],
-    ["APP_a_three", "string", `Details: \{[\\n\\r][ \\t]*"a": \{[\\r\\n][ \\t]*"three"`],
-    ["APP_b", "string", `Details: \{[\\n\\r][ \\t]*"b": "Expected`],
-    ["APP_c", "Not C", `Details: \{[\\n\\r][ \\t]*"c": "Expected`],
+    ["APP_a_one", "3", `Details: {[\\n\\r][ \\t]*"a": {[\\r\\n][ \\t]*"one"`],
+    ["APP_a_two", "12345", `Details: {[\\n\\r][ \\t]*"a": {[\\r\\n][ \\t]*"two"`],
+    ["APP_a_three", "string", `Details: {[\\n\\r][ \\t]*"a": {[\\r\\n][ \\t]*"three"`],
+    ["APP_b", "string", `Details: {[\\n\\r][ \\t]*"b": "Expected`],
+    ["APP_c", "Not C", `Details: {[\\n\\r][ \\t]*"c": "Expected`],
   ].map((testCase) => {
     test(`should throw errors when ${testCase[0]} is ${testCase[1]}`, () => {
       // Set the config in the environment
