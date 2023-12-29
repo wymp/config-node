@@ -6,6 +6,11 @@ configuration in a NodeJS environment. It provides a single export `config`, whi
 ([Weenie-compatible](https://github.com/wymp/weenie-framework)) that takes config from a number of
 optional sources and merges it all into a single, type-checked config object.
 
+>
+> *NOTE: See also [config-simple](https://github.com/wymp/config-simple) ([pkg](https://www.npmjs.com/package/@wymp/config-simple))
+> for an alternative simpler config system.*
+>
+
 
 ### Primary features
 
