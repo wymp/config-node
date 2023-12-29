@@ -1,3 +1,7 @@
+.eslint*
+.prettier*
+.github
+.husky
 dist-test
 githooks
 tests

@@ -7,11 +7,11 @@ optional sources and merges it all into a single, type-checked config object.</p
 for an alternative simpler config system.</em></p>
 </blockquote>
 <a id="md:primary-features" class="tsd-anchor"></a><h3><a href="#md:primary-features">Primary features</a></h3><ul>
-<li>Sources include at least one of the following:<ul>
+<li>Sources include any or all of the following:<ul>
 <li>environment variables</li>
 <li>defaults JSON file (version-controlled)</li>
 <li>&quot;locals&quot; JSON file (non-version-controlled),</li>
-<li>docker secrets directory</li>
+<li>docker secrets directory (e.g., <code>/secrets</code>)</li>
 </ul>
 </li>
 <li>Sources are combined in the following order: <code>defaults file &lt; locals file &lt; env &lt; secrets dir</code></li>
@@ -23,7 +23,7 @@ undefined).</li>
 <li>Values can contain explicit casts to guarantee type (e.g., <code>&lt;string&gt;3</code> results in the string <code>&quot;3&quot;</code></li>
 <li>Pass a runtype type-checker in for automatic runtime type checking and fast-fail on errors. (Pass
 a dummy type-checker in to bypass.)</li>
-<li>Supports arbitrary namespacing (<code>APP_</code>, <code>APP_CONFIG_</code>, <code>MYCNF_</code>, whatever)</li>
+<li>Supports arbitrary namespacing of env vars (<code>APP_</code>, <code>APP_CONFIG_</code>, <code>MYCNF_</code>, whatever)</li>
 <li>Optional changing of delimiter (defaults to <code>_</code>, very rarely needs to be changed).</li>
 </ul>
 <a id="md:examples" class="tsd-anchor"></a><h3><a href="#md:examples">Examples</a></h3><p><strong>Common Use:</strong> Store default variables in a version-controlled <code>config.json</code> file and selectively

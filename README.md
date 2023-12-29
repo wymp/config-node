@@ -14,11 +14,11 @@ optional sources and merges it all into a single, type-checked config object.
 
 ### Primary features
 
-* Sources include at least one of the following:
+* Sources include any or all of the following:
   * environment variables
   * defaults JSON file (version-controlled)
   * "locals" JSON file (non-version-controlled),
-  * docker secrets directory
+  * docker secrets directory (e.g., `/secrets`)
 * Sources are combined in the following order: `defaults file < locals file < env < secrets dir`
 * Variable names can contain numeric suffixes (`__001`, `__1`, etc.) for "secrets versioning"
   (necessary for some orchestrators, including docker swarm). Variables are sorted in ascending
@@ -28,7 +28,7 @@ optional sources and merges it all into a single, type-checked config object.
 * Values can contain explicit casts to guarantee type (e.g., `<string>3` results in the string `"3"`
 * Pass a runtype type-checker in for automatic runtime type checking and fast-fail on errors. (Pass
   a dummy type-checker in to bypass.)
-* Supports arbitrary namespacing (`APP_`, `APP_CONFIG_`, `MYCNF_`, whatever)
+* Supports arbitrary namespacing of env vars (`APP_`, `APP_CONFIG_`, `MYCNF_`, whatever)
 * Optional changing of delimiter (defaults to `_`, very rarely needs to be changed).
   
 
